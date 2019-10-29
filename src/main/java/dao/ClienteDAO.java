@@ -1,8 +1,10 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import models.Cliente;
+import models.TipoPessoa;
 
 public class ClienteDAO extends BaseDAO {
 	
@@ -11,6 +13,14 @@ public class ClienteDAO extends BaseDAO {
 		 * TODO: Implementar logica
 		 */
 		
+		try {
+			
+			pst.setInt(3, cliente.getTipoPessoa().ordinal());
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao salvar registro");
+		}
+		
 		return cliente;
 	}
 	
@@ -18,6 +28,14 @@ public class ClienteDAO extends BaseDAO {
 		/*
 		 * TODO: Implementar logica
 		 */
+		
+		Cliente cliente = new Cliente();
+		
+		try {
+			cliente.setTipoPessoa(TipoPessoa.parse(rs.getInt("tipo_pessoa")));
+		} catch(SQLException e) {
+			throw new RuntimeException("Erro ao ler registro");
+		}
 		
 		return null;
 	}
